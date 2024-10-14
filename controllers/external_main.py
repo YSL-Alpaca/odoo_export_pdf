@@ -128,7 +128,14 @@ class PDFExport(ExcelExport, http.Controller):
         # """HTML 2 PDF"""
         # HTML(string=styled_html).write_pdf(PDF_PATH)
         import pdfkit
-        pdfkit.from_string(html_str, PDF_PATH)
+        options = {
+            'page-size': 'Letter',
+            'encoding': "UTF-8",
+            'custom-header': [
+                ('Accept-Encoding', 'identity')
+            ]
+        }
+        pdfkit.from_string(html_str, PDF_PATH, options=options)
 
     @http.route('/web/export/pdf', type='http', auth="user")
     @serialize_exception
